@@ -1,4 +1,4 @@
-package gwg6784.swinggpt.conversation;
+package gwg6784.swinggpt.services.conversation.models;
 
 public class ConversationEntry {
     public final String prompt;

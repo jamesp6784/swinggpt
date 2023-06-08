@@ -10,18 +10,28 @@ import java.util.List;
 import java.util.UUID;
 
 import gwg6784.swinggpt.Util;
-import gwg6784.swinggpt.conversation.Conversation;
-import gwg6784.swinggpt.conversation.ConversationEntry;
+import gwg6784.swinggpt.services.conversation.models.Conversation;
+import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
 
 public class Database {
     private static final String CONNECTION_STRING = "jdbc:derby:memory:demo;create=true";
     private static final String STATUS_TABLE_ALREADY_EXISTS = "X0Y32";
-    private static final Database INSTANCE = connect();
 
     private Connection conn;
 
-    public static Database getInstance() {
-        return INSTANCE;
+    private Database(Connection conn) {
+        this.conn = conn;
+    }
+
+    public static Database connect() {
+        try {
+            Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+            Database database = new Database(conn);
+            database.ensureTablesCreated();
+            return database;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<Conversation> getConversations() throws SQLException {
@@ -46,23 +56,8 @@ public class Database {
         return id;
     }
 
-    private Database(Connection conn) {
-        this.conn = conn;
-    }
-
-    private static Database connect() {
-        try {
-            Connection conn = DriverManager.getConnection(CONNECTION_STRING);
-            Database database = new Database(conn);
-            database.ensureTablesCreated();
-            return database;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private void ensureTablesCreated() throws SQLException {
-        this.ensureTableCreated("CREATE TABLE conversations (id CHAR(16) FOR BIT DATA PRIMARY KEY, name VARCHAR(32))");
+        this.ensureTableCreated("CREATE TABLE conversations (id CHAR(16) FOR BIT DATA PRIMARY KEY, name VARCHAR(128))");
         this.ensureTableCreated(
                 "CREATE TABLE entries (id CHAR(16) FOR BIT DATA PRIMARY KEY, conversation_id CHAR(16) FOR BIT DATA REFERENCES conversations(id), prompt VARCHAR(1000), reply VARCHAR(4000))");
     }

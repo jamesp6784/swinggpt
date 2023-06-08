@@ -1,4 +1,4 @@
-package gwg6784.swinggpt.conversation;
+package gwg6784.swinggpt.services.conversation;
 
 import java.util.function.BiFunction;
 
