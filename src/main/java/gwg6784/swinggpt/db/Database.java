@@ -56,10 +56,18 @@ public class Database {
         return id;
     }
 
+    public void deleteConversation(UUID id) throws SQLException {
+        this.update("DELETE FROM conversations WHERE id = ?", id);
+    }
+
+    public void deleteAllConversations() throws SQLException {
+        this.update("DELETE FROM conversations");
+    }
+
     private void ensureTablesCreated() throws SQLException {
         this.ensureTableCreated("CREATE TABLE conversations (id CHAR(16) FOR BIT DATA PRIMARY KEY, name VARCHAR(128))");
         this.ensureTableCreated(
-                "CREATE TABLE entries (id CHAR(16) FOR BIT DATA PRIMARY KEY, conversation_id CHAR(16) FOR BIT DATA REFERENCES conversations(id), prompt VARCHAR(1000), reply VARCHAR(4000))");
+                "CREATE TABLE entries (id CHAR(16) FOR BIT DATA PRIMARY KEY, conversation_id CHAR(16) FOR BIT DATA REFERENCES conversations(id) ON DELETE CASCADE, prompt VARCHAR(1000), reply VARCHAR(4000))");
     }
 
     private void ensureTableCreated(String sql) throws SQLException {

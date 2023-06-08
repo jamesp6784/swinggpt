@@ -38,6 +38,7 @@ public class MainPanel extends JPanel {
             this.sidebarPanel.addItem(conv.id, conv.name, () -> this.contentSlot.set(new ChatPanel(conv)));
         }
 
-        this.sidebarPanel.addItem(KEY_CLEAR_CHATS, "Clear history", () -> this.contentSlot.set(new ChatPanel()));
+        this.sidebarPanel.addItem(KEY_CLEAR_CHATS, "Clear history",
+                () -> this.conversationService.deleteAllConversations());
     }
 }

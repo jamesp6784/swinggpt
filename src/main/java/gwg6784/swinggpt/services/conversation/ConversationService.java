@@ -2,7 +2,6 @@
 
 package gwg6784.swinggpt.services.conversation;
 
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -67,25 +66,45 @@ public class ConversationService {
     }
 
     public List<Conversation> getConversations() {
-        try {
-            return this.db.getConversations();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return this.executeOrPanic((ThrowableSupplier<List<Conversation>>) () -> this.db.getConversations());
     }
 
     public List<ConversationEntry> getConversationHistory(UUID id) {
-        try {
-            return this.db.getConversationHistory(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return this
+                .executeOrPanic((ThrowableSupplier<List<ConversationEntry>>) () -> this.db.getConversationHistory(id));
+    }
+
+    public void deleteConversation(UUID id) {
+        this.executeOrPanic((ThrowableRunnable) () -> this.db.deleteConversation(id));
+        this.notifyListListeners();
+    }
+
+    public void deleteAllConversations() {
+        this.executeOrPanic((ThrowableRunnable) () -> this.db.deleteAllConversations());
+        this.notifyListListeners();
     }
 
     public void addConversationListListener(Runnable listener) {
         this.conversationListObservers.add(listener);
+    }
+
+    private <T> T executeOrPanic(ThrowableSupplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            System.exit(0);
+            return null;
+        }
+    }
+
+    private void executeOrPanic(Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
 
     private void notifyListListeners() {
