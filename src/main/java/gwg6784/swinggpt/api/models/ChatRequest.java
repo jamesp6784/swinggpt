@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import gwg6784.swinggpt.conversation.ConversationEntry;
+import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
 
 /**
  * A chat request as required by the OpenAI API

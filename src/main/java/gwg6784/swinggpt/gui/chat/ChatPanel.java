@@ -1,40 +1,48 @@
-package gwg6784.swinggpt.gui;
+package gwg6784.swinggpt.gui.chat;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import gwg6784.swinggpt.conversation.Conversation;
-import gwg6784.swinggpt.conversation.ConversationService;
+import gwg6784.swinggpt.services.Services;
+import gwg6784.swinggpt.services.TitleService;
+import gwg6784.swinggpt.services.conversation.ConversationService;
+import gwg6784.swinggpt.services.conversation.models.Conversation;
+import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.util.concurrent.CompletableFuture;
 
-public class Panel extends JPanel {
-    private MessagePanel messagePanel = new MessagePanel();
-    private ConversationService conversationService = ConversationService.getInstance();
+public class ChatPanel extends JPanel {
+    private ConversationService conversationService = Services.get(ConversationService.class);
+    private TitleService titleService = Services.get(TitleService.class);
     private Conversation conversation;
-    private JLabel topLabel = new JLabel("New chat");
 
-    public Panel(Conversation conversation) {
-        this();
-        setConversation(conversation);
-    }
+    private MessagePanel messagePanel = new MessagePanel();
 
-    public Panel() {
-        setBackground(Color.GRAY);
-
+    public ChatPanel(Conversation conversation) {
         setLayout(new BorderLayout());
 
-        add(this.topLabel, BorderLayout.NORTH);
+        if (conversation != null) {
+            this.setConversation(conversation);
+            for (ConversationEntry entry : this.conversationService.getConversationHistory(conversation.id)) {
+                this.messagePanel.addMessage(entry.prompt, false);
+                this.messagePanel.addMessage(entry.reply, false);
+            }
+        } else {
+            this.titleService.setTitle("New chat");
+        }
+
         add(new JScrollPane(this.messagePanel), BorderLayout.CENTER);
         add(new JScrollPane(new ChatInputPanel(prompt -> this.onSubmit(prompt))), BorderLayout.SOUTH);
     }
 
+    public ChatPanel() {
+        this(null);
+    }
+
     private void setConversation(Conversation conversation) {
         this.conversation = conversation;
-        this.topLabel.setText(conversation.name);
+        this.titleService.setTitle(conversation.name);
     }
 
     private void onSubmit(String prompt) {

@@ -16,7 +16,7 @@ import com.google.gson.stream.JsonReader;
 
 import gwg6784.swinggpt.api.models.ChatRequest;
 import gwg6784.swinggpt.api.models.ChatResponse;
-import gwg6784.swinggpt.conversation.ConversationEntry;
+import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
 
 public final class OpenAiApi {
     private static final String ENDPOINT = "https://api.openai.com/v1/chat/completions";

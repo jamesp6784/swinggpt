@@ -1,4 +1,4 @@
-package gwg6784.swinggpt.gui;
+package gwg6784.swinggpt.gui.chat;
 
 import java.awt.Color;
 import java.awt.Dimension;
