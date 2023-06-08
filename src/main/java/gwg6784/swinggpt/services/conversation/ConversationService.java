@@ -20,7 +20,7 @@ import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
  * Service for getting, creating and deleting conversations.
  */
 public class ConversationService {
-    private static final String TITLE_PROMPT_TEMPLATE = "---BEGIN CHAT---\n%s\n---END CHAT---\nSummarize the chat in 5 words or less";
+    private static final String TITLE_PROMPT_TEMPLATE = "---BEGIN CONVERSATION---\n%s\n---END CONVERSATION---\nSummarize the conversation in 5 words or less";
 
     private final Database db = Database.connect();
     private final Set<Runnable> conversationListObservers = new HashSet<>();
