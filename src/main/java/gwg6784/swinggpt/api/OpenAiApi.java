@@ -14,29 +14,31 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-import gwg6784.swinggpt.api.models.ChatMessage;
 import gwg6784.swinggpt.api.models.ChatRequest;
 import gwg6784.swinggpt.api.models.ChatResponse;
+import gwg6784.swinggpt.conversation.ConversationEntry;
 
 public final class OpenAiApi {
-    private final static String ENDPOINT = "https://api.openai.com/v1/chat/completions";
-    private final static String BEARER_TOKEN = System.getenv("OPENAI_TOKEN");
-    private final static String MODEL = "gpt-3.5-turbo";
+    private static final String ENDPOINT = "https://api.openai.com/v1/chat/completions";
+    private static final String BEARER_TOKEN = System.getenv("OPENAI_TOKEN");
+    private static final String MODEL = "gpt-3.5-turbo";
 
-    private final static Gson gson = new Gson();
+    private static final Gson gson = new Gson();
 
     private OpenAiApi() {
     }
 
-    public static ChatResponse sendRequest(ChatRequest req) throws IOException {
+    public static String sendRequest(ChatRequest req) throws IOException {
         String body = gson.toJson(req);
 
         StringEntity entity = new StringEntity(body, ContentType.APPLICATION_JSON);
 
-        Content res = Request.post(ENDPOINT).body(entity).addHeader("Authorization", "Bearer " + BEARER_TOKEN)
+        Content content = Request.post(ENDPOINT).body(entity).addHeader("Authorization", "Bearer " + BEARER_TOKEN)
                 .execute().returnContent();
 
-        return gson.fromJson(new JsonReader(new InputStreamReader(res.asStream())), ChatResponse.class);
+        ChatResponse res = gson.fromJson(new JsonReader(new InputStreamReader(content.asStream())), ChatResponse.class);
+
+        return res.choices.get(0).message.content;
     }
 
     /**
@@ -47,7 +49,7 @@ public final class OpenAiApi {
      * @return the response from OpenAI
      * @throws IOException
      */
-    public static ChatResponse chat(String prompt, List<ChatMessage> history) throws IOException {
+    public static String chat(String prompt, List<ConversationEntry> history) throws IOException {
         return sendRequest(ChatRequest.withHistory(MODEL, prompt, history));
     }
 
@@ -58,7 +60,7 @@ public final class OpenAiApi {
      * @return the response from OpenAI
      * @throws IOException
      */
-    public static ChatResponse chat(String prompt) throws IOException {
+    public static String chat(String prompt) throws IOException {
         return sendRequest(ChatRequest.empty(MODEL, prompt));
     }
 }

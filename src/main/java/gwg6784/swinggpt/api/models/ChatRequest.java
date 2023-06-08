@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gwg6784.swinggpt.conversation.ConversationEntry;
+
 /**
  * A chat request as required by the OpenAI API
  */
@@ -18,8 +20,15 @@ public class ChatRequest {
         this.messages = Collections.unmodifiableList(messages);
     }
 
-    public static ChatRequest withHistory(String model, String prompt, List<ChatMessage> history) {
-        List<ChatMessage> messages = new ArrayList<>(history);
+    public static ChatRequest withHistory(String model, String prompt, List<ConversationEntry> entries) {
+        List<ChatMessage> messages = new ArrayList<>();
+
+        if (entries != null) {
+            for (ConversationEntry entry : entries) {
+                messages.add(new ChatMessage("user", entry.prompt));
+                messages.add(new ChatMessage("assistant", entry.reply));
+            }
+        }
 
         messages.add(new ChatMessage("user", prompt));
 

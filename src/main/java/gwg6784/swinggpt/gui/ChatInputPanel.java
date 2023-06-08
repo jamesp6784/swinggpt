@@ -29,6 +29,7 @@ public class ChatInputPanel extends JPanel implements Scrollable {
                     jta.append("\n");
                 } else {
                     submitConsumer.accept(jta.getText());
+                    jta.setText("");
                     e.consume();
                 }
             }

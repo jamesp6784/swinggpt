@@ -2,72 +2,62 @@
 
 package gwg6784.swinggpt.conversation;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import com.google.gson.reflect.TypeToken;
+import org.javatuples.Pair;
 
 import gwg6784.swinggpt.api.OpenAiApi;
-import gwg6784.swinggpt.api.models.ChatResponse;
+import gwg6784.swinggpt.db.Database;
 
 /**
  * Service for getting, creating and deleting conversations.
  */
 public class ConversationService {
+    private static final String TITLE_PROMPT_TEMPLATE = "---BEGIN Conversation---\n%s\n---END Conversation---\nSummarize the conversation in 5 words or less";
+
     private static final ConversationService INSTANCE = new ConversationService();
+
+    private final Database db = Database.getInstance();
 
     public static ConversationService getInstance() {
         return INSTANCE;
     }
 
-    public CompletableFuture<Conversation> newConversation(String prompt) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                ChatResponse res = OpenAiApi.chat(prompt);
+    public CompletableFuture<Pair<Conversation, String>> newConversation(String prompt) {
+        CompletableFuture<String> replyFuture = CompletableFuture
+                .supplyAsync((ThrowableSupplier<String>) () -> OpenAiApi.chat(prompt));
 
-                ArrayList<Conversation.Entry> entries = new ArrayList<>();
-                entries.add(new Conversation.Entry(prompt,
-                        res.choices.get(0).message.content));
+        CompletableFuture<String> titleFuture = CompletableFuture
+                .supplyAsync((ThrowableSupplier<String>) () -> OpenAiApi
+                        .chat(String.format(TITLE_PROMPT_TEMPLATE, prompt)));
 
-                UUID id = UUID.randomUUID();
+        return replyFuture.thenCombine(titleFuture,
+                (ThrowableBiFunction<String, String, Pair<Conversation, String>>) (reply, title) -> {
 
-                Conversation conv = new Conversation(id, "Chat", entries);
+                    UUID conversationId = this.db.createConversation(title);
+                    this.db.createEntry(conversationId, prompt, reply);
 
-                return conv;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                    Conversation conv = new Conversation(conversationId, title);
+
+                    return new Pair<>(conv, reply);
+                });
     }
 
-    // public CompletableFuture<UUID> continueConversation(UUID conversationId,
-    // String prompt) {
-    // return CompletableFuture.supplyAsync(() -> {
-    // try {
-    // Conversation conv = this.file.getData().get(conversationId);
+    public CompletableFuture<String> continueConversation(UUID conversationId, String prompt) {
+        return CompletableFuture.supplyAsync((ThrowableSupplier<String>) () -> {
+            List<ConversationEntry> conv = this.db.getConversationHistory(conversationId);
 
-    // if (conv == null) {
-    // throw new IllegalStateException("Tried to continue a missing conversation");
-    // }
+            if (conv.isEmpty()) {
+                throw new IllegalStateException("Tried to continue a missing conversation");
+            }
 
-    // ChatResponse res = OpenAiApi.chat(prompt, conv);
+            String reply = OpenAiApi.chat(prompt, conv);
 
-    // Conversation.Entry entry = new Conversation.Entry(prompt,
-    // res.choices.get(0).message.content);
+            this.db.createEntry(conversationId, prompt, reply);
 
-    // this.file.getData().get(conversationId).entries.add(entry);
-    // this.trySaveFile();
-
-    // return conversationId;
-    // } catch (IOException e) {
-    // throw new RuntimeException(e);
-    // }
-    // });
-    // }
+            return reply;
+        });
+    }
 }

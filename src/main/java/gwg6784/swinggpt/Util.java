@@ -2,6 +2,8 @@ package gwg6784.swinggpt;
 
 import java.awt.Font;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.UUID;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -34,4 +36,16 @@ public final class Util {
     // throw new RuntimeException(e);
     // }
     // }
+
+    public static UUID uuidFromBytes(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    }
+
+    public static byte[] uuidToBytes(UUID uuid) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(new byte[16]);
+        byteBuffer.putLong(uuid.getMostSignificantBits());
+        byteBuffer.putLong(uuid.getLeastSignificantBits());
+        return byteBuffer.array();
+    }
 }
