@@ -10,13 +10,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.Timer;
+
+import gwg6784.swinggpt.conversation.ConversationService;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 
 public class Panel extends JPanel {
-    MessagePanel messagePanel = new MessagePanel();
+    private MessagePanel messagePanel = new MessagePanel();
+    private ConversationService conversationService = ConversationService.getInstance();
 
     public Panel() {
 
@@ -24,11 +28,17 @@ public class Panel extends JPanel {
 
         setLayout(new BorderLayout());
 
-        JScrollPane jsp = new JScrollPane(this.messagePanel);
+        add(new JScrollPane(this.messagePanel), BorderLayout.CENTER);
+        add(new JScrollPane(new ChatInputPanel(prompt -> this.onSubmit(prompt))),
+                BorderLayout.SOUTH);
 
-        add(jsp, BorderLayout.CENTER);
-        add(new JLabel("hello"), BorderLayout.SOUTH);
+        messagePanel.addMessage(
+                "Have you ever wondered why flamingos stand on one leg? These majestic birds exhibit this peculiar behavior to conserve body heat. By tucking one leg close to their body, flamingos reduce the amount of exposed surface area, minimizing heat loss. This posture also helps them maintain balance and stability on uneven surfaces such as mudflats and shallow waters where they often feed.",
+                true);
 
     }
 
+    private void onSubmit(String prompt) {
+        System.out.println(prompt);
+    }
 }

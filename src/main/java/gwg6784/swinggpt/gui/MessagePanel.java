@@ -9,14 +9,14 @@ import javax.swing.JPanel;
 import javax.swing.Scrollable;
 
 public class MessagePanel extends JPanel implements Scrollable {
-    private static final int SCROLL_AMOUNT = 14;
+    public static final int SCROLL_AMOUNT = 14;
 
     public MessagePanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
-    public void addMessage(String message) {
-        add(new MessageComponent(message, Color.black, true));
+    public void addMessage(String message, boolean animate) {
+        add(new MessageBlock(message, Color.black, animate));
     }
 
     @Override

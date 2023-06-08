@@ -7,14 +7,14 @@ import java.awt.Dimension;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 
-public class MessageComponent extends JTextArea {
+public class MessageBlock extends JTextArea {
     private static final int INITIAL_DELAY = 1000;
 
     private String text;
-    private int endIndex = 0;
+    private int animationIndex = 0;
     private Timer animationTimer;
 
-    public MessageComponent(String text, Color color, boolean animate) {
+    public MessageBlock(String text, Color color, boolean animate) {
         this.text = text;
 
         setEditable(false);
@@ -32,18 +32,18 @@ public class MessageComponent extends JTextArea {
     }
 
     private void animate() {
-        this.endIndex++;
+        char nextChar = this.text.charAt(this.animationIndex++);
 
-        if (this.endIndex > this.text.length()) {
+        append("" + nextChar);
+
+        if (this.animationIndex >= this.text.length()) {
             this.animationTimer.stop();
             return;
         }
 
-        setText(text.substring(0, this.endIndex));
-
         int delay;
 
-        switch (this.text.charAt(this.endIndex - 1)) {
+        switch (nextChar) {
             case ',':
                 delay = 80;
                 break;
