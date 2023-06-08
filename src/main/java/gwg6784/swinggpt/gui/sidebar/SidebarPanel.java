@@ -1,5 +1,6 @@
 package gwg6784.swinggpt.gui.sidebar;
 
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,5 +26,10 @@ public class SidebarPanel extends JPanel {
         this.items.clear();
         removeAll();
         revalidate();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(120, super.getPreferredSize().height);
     }
 }
