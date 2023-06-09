@@ -5,31 +5,58 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 
-public class SidebarPanel extends JPanel {
+import gwg6784.swinggpt.Util;
+import gwg6784.swinggpt.gui.common.Panel;
+import gwg6784.swinggpt.gui.common.Separator;
+
+public class SidebarPanel extends Panel {
+    private static final int SIDEBAR_WIDTH = 320;
+
     private Map<Object, SidebarItem> items = new HashMap<>();
 
     public SidebarPanel() {
+        super(BORDER_RIGHT);
+
+        addInnerBorder(Util.emptyBorder(12));
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     public void addItem(Object key, String name, Runnable onSelect) {
-        SidebarItem item = new SidebarItem(name);
-        item.addActionListener(a -> onSelect.run());
+        this.addItem(key, name, onSelect, null);
+    }
+
+    public void addItem(Object key, String name, Runnable onSelect, Runnable onDelete) {
+        SidebarItem item = new SidebarItem(name, onDelete != null);
+
+        item.addClickListener(onSelect);
+
+        if (onDelete != null) {
+            item.addDeleteClickListener(onDelete);
+        }
+
         items.put(key, item);
         add(item);
         revalidate();
+        repaint();
+    }
+
+    public void addDivider() {
+        add(new Separator());
+        revalidate();
+        repaint();
     }
 
     public void clearItems() {
         this.items.clear();
         removeAll();
         revalidate();
+        repaint();
     }
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(120, super.getPreferredSize().height);
+        return new Dimension(SIDEBAR_WIDTH, super.getPreferredSize().height);
     }
 }

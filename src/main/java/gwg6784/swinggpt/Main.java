@@ -5,19 +5,18 @@ import javax.swing.JFrame;
 import gwg6784.swinggpt.gui.MainPanel;
 import gwg6784.swinggpt.gui.frame.Frame;
 import gwg6784.swinggpt.services.Services;
-import gwg6784.swinggpt.services.TitleService;
+import gwg6784.swinggpt.services.WindowService;
 import gwg6784.swinggpt.services.conversation.ConversationService;
 
 public class Main {
     public static void main(String[] args) {
         Services.add(new ConversationService());
-        Services.add(new TitleService("SwingGPT"));
+        Services.add(new WindowService());
 
-        Frame frame = new Frame();
+        Frame frame = new Frame("SwingGPT", new MainPanel());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.add(new MainPanel());
-        frame.setSize(700, 600);
+        frame.setSize(960, 680);
         frame.setVisible(true);
     }
 }

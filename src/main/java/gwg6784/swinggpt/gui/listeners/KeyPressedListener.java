@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * Allows us to use a lambda in calls to addKeyListener through lambda coercion
+ * Allows us to use a lambda when adding listeners through lambda coercion
  */
 @FunctionalInterface
 public interface KeyPressedListener extends KeyListener {

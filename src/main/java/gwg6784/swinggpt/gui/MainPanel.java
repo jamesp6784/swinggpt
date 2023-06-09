@@ -1,30 +1,32 @@
 package gwg6784.swinggpt.gui;
 
 import java.awt.BorderLayout;
-
-import javax.swing.JPanel;
+import java.util.List;
 
 import gwg6784.swinggpt.gui.chat.ChatPanel;
+import gwg6784.swinggpt.gui.common.Panel;
+import gwg6784.swinggpt.gui.common.Slot;
 import gwg6784.swinggpt.gui.sidebar.SidebarPanel;
 import gwg6784.swinggpt.services.Services;
 import gwg6784.swinggpt.services.conversation.ConversationService;
 import gwg6784.swinggpt.services.conversation.models.Conversation;
 
-public class MainPanel extends JPanel {
+public class MainPanel extends Panel {
     private static final int KEY_NEW_CHAT = 1;
     private static final int KEY_CLEAR_CHATS = 2;
 
     private ConversationService conversationService = Services.get(ConversationService.class);
-    private Slot contentSlot = new Slot(new WelcomePanel());
+
     private SidebarPanel sidebarPanel = new SidebarPanel();
+    private Slot contentSlot = new Slot(new WelcomePanel());
 
     public MainPanel() {
         setLayout(new BorderLayout());
 
-        this.updateSidebar();
-
         add(this.sidebarPanel, BorderLayout.WEST);
         add(this.contentSlot, BorderLayout.CENTER);
+
+        this.updateSidebar();
 
         this.conversationService.addConversationListListener(() -> this.updateSidebar());
     }
@@ -32,13 +34,27 @@ public class MainPanel extends JPanel {
     private void updateSidebar() {
         this.sidebarPanel.clearItems();
 
-        this.sidebarPanel.addItem(KEY_NEW_CHAT, "New chat", () -> this.contentSlot.set(new ChatPanel()));
+        this.sidebarPanel.addItem(KEY_NEW_CHAT, "+   New chat", () -> this.newChat());
+        this.sidebarPanel.addDivider();
 
-        for (Conversation conv : this.conversationService.getConversations()) {
-            this.sidebarPanel.addItem(conv.id, conv.name, () -> this.contentSlot.set(new ChatPanel(conv)));
+        List<Conversation> conversations = this.conversationService.getConversations();
+
+        for (Conversation conv : conversations) {
+            this.sidebarPanel.addItem(conv.id, conv.name,
+                    () -> this.contentSlot.set(new ChatPanel(conv)),
+                    () -> this.conversationService.deleteConversation(conv.id));
         }
 
-        this.sidebarPanel.addItem(KEY_CLEAR_CHATS, "Clear history",
-                () -> this.conversationService.deleteAllConversations());
+        if (!conversations.isEmpty()) {
+            this.sidebarPanel.addDivider();
+            this.sidebarPanel.addItem(KEY_CLEAR_CHATS, "Clear history", () -> {
+                this.conversationService.deleteAllConversations();
+                this.newChat();
+            });
+        }
+    }
+
+    private void newChat() {
+        this.contentSlot.set(new ChatPanel());
     }
 }

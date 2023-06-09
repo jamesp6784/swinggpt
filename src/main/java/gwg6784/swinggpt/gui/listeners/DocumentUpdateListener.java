@@ -4,8 +4,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
- * Allows us to use a lambda in calls to addDocumentListener through lambda
- * coercion
+ * Allows us to use a lambda when adding listeners through lambda coercion
  */
 @FunctionalInterface
 public interface DocumentUpdateListener extends DocumentListener {
