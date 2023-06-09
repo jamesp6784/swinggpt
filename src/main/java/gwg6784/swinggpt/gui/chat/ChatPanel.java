@@ -3,7 +3,6 @@ package gwg6784.swinggpt.gui.chat;
 import gwg6784.swinggpt.gui.common.Panel;
 import gwg6784.swinggpt.gui.common.ScrollPane;
 import gwg6784.swinggpt.services.Services;
-import gwg6784.swinggpt.services.WindowService;
 import gwg6784.swinggpt.services.conversation.ConversationService;
 import gwg6784.swinggpt.services.conversation.models.Conversation;
 import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
@@ -13,7 +12,6 @@ import java.util.concurrent.CompletableFuture;
 
 public class ChatPanel extends Panel {
     private ConversationService conversationService = Services.get(ConversationService.class);
-    private WindowService titleService = Services.get(WindowService.class);
     private Conversation conversation;
 
     private MessagePanel messagePanel = new MessagePanel();
@@ -27,8 +25,6 @@ public class ChatPanel extends Panel {
                 this.messagePanel.addMessage(entry.prompt, false);
                 this.messagePanel.addMessage(entry.reply, false);
             }
-        } else {
-            this.titleService.setTitle("New chat");
         }
 
         add(new ScrollPane(this.messagePanel), BorderLayout.CENTER);
@@ -79,7 +75,6 @@ public class ChatPanel extends Panel {
 
     private void setConversation(Conversation conversation) {
         this.conversation = conversation;
-        this.titleService.setTitle(conversation.name);
     }
 
     private void onSubmit(String prompt) {

@@ -6,13 +6,18 @@ import java.util.Map;
 
 import javax.swing.BoxLayout;
 
+import gwg6784.swinggpt.Util;
 import gwg6784.swinggpt.gui.common.Panel;
+import gwg6784.swinggpt.gui.common.Separator;
 
 public class SidebarPanel extends Panel {
     private Map<Object, SidebarItem> items = new HashMap<>();
 
     public SidebarPanel() {
         super(BORDER_RIGHT);
+
+        addInnerBorder(Util.emptyBorder(12));
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
@@ -21,17 +26,31 @@ public class SidebarPanel extends Panel {
     }
 
     public void addItem(Object key, String name, Runnable onSelect, Runnable onDelete) {
-        SidebarItem item = new SidebarItem(name);
-        item.addClickListener(() -> onSelect.run());
+        SidebarItem item = new SidebarItem(name, onDelete != null);
+
+        item.addClickListener(onSelect);
+
+        if (onDelete != null) {
+            item.addDeleteClickListener(onDelete);
+        }
+
         items.put(key, item);
         add(item);
         revalidate();
+        repaint();
+    }
+
+    public void addDivider() {
+        add(new Separator());
+        revalidate();
+        repaint();
     }
 
     public void clearItems() {
         this.items.clear();
         removeAll();
         revalidate();
+        repaint();
     }
 
     @Override
