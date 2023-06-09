@@ -7,12 +7,15 @@ import java.awt.Rectangle;
 import javax.swing.BoxLayout;
 import javax.swing.Scrollable;
 
+import gwg6784.swinggpt.gui.Palette;
 import gwg6784.swinggpt.gui.common.Panel;
 
 public class MessagePanel extends Panel implements Scrollable {
     public static final int SCROLL_AMOUNT = 14;
 
     public MessagePanel() {
+        setBackground(Palette.BACKGROUND_2);
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 

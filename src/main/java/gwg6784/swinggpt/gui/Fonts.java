@@ -12,6 +12,7 @@ public final class Fonts {
 
     public static final Font DEFAULT = LATO_REGULAR.deriveFont(Font.PLAIN, 16);
     public static final Font LOGO = PROMPT_SEMIBOLD.deriveFont(Font.BOLD, 32);
+    public static final Font HEADER = PROMPT_SEMIBOLD.deriveFont(Font.PLAIN, 24);
 
     private static Font loadFont(int type, String file) {
         try {

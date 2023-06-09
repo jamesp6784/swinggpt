@@ -11,6 +11,8 @@ import gwg6784.swinggpt.gui.common.Panel;
 import gwg6784.swinggpt.gui.common.Separator;
 
 public class SidebarPanel extends Panel {
+    private static final int SIDEBAR_WIDTH = 320;
+
     private Map<Object, SidebarItem> items = new HashMap<>();
 
     public SidebarPanel() {
@@ -55,6 +57,6 @@ public class SidebarPanel extends Panel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(160, super.getPreferredSize().height);
+        return new Dimension(SIDEBAR_WIDTH, super.getPreferredSize().height);
     }
 }

@@ -6,10 +6,10 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.function.Consumer;
 
-import javax.swing.JTextArea;
 import javax.swing.Scrollable;
 
 import gwg6784.swinggpt.gui.common.Panel;
+import gwg6784.swinggpt.gui.common.TextArea;
 import gwg6784.swinggpt.gui.listeners.DocumentUpdateListener;
 import gwg6784.swinggpt.gui.listeners.KeyPressedListener;
 
@@ -20,22 +20,22 @@ public class ChatInputPanel extends Panel implements Scrollable {
     public ChatInputPanel(Consumer<String> submitConsumer) {
         setLayout(new BorderLayout());
 
-        JTextArea jta = new JTextArea();
+        TextArea textArea = new TextArea();
 
-        jta.getDocument().addDocumentListener((DocumentUpdateListener) e -> getRootPane().revalidate());
-        jta.addKeyListener((KeyPressedListener) e -> {
+        textArea.getDocument().addDocumentListener((DocumentUpdateListener) e -> getRootPane().revalidate());
+        textArea.addKeyListener((KeyPressedListener) e -> {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 if (e.isShiftDown()) {
-                    jta.append("\n");
+                    textArea.append("\n");
                 } else {
-                    submitConsumer.accept(jta.getText());
-                    jta.setText("");
+                    submitConsumer.accept(textArea.getText());
+                    textArea.setText("");
                     e.consume();
                 }
             }
         });
 
-        add(jta, BorderLayout.CENTER);
+        add(textArea, BorderLayout.CENTER);
     }
 
     @Override

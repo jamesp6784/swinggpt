@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 
-import javax.swing.JTextArea;
 import javax.swing.Timer;
 
-public class MessageBlock extends JTextArea {
+import gwg6784.swinggpt.gui.Palette;
+import gwg6784.swinggpt.gui.common.TextArea;
+
+public class MessageBlock extends TextArea {
     private static final int INITIAL_DELAY = 20;
 
     private String text;
@@ -16,6 +18,8 @@ public class MessageBlock extends JTextArea {
 
     public MessageBlock(String text, Color color, boolean animate) {
         this.text = text;
+
+        setBackground(Palette.BACKGROUND_2);
 
         setEditable(false);
         setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));

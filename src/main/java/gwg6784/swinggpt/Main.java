@@ -16,7 +16,7 @@ public class Main {
         Frame frame = new Frame("SwingGPT", new MainPanel());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.setSize(700, 600);
+        frame.setSize(960, 680);
         frame.setVisible(true);
     }
 }

@@ -1,5 +1,6 @@
 package gwg6784.swinggpt.gui.chat;
 
+import gwg6784.swinggpt.gui.Palette;
 import gwg6784.swinggpt.gui.common.Panel;
 import gwg6784.swinggpt.gui.common.ScrollPane;
 import gwg6784.swinggpt.services.Services;
@@ -14,10 +15,13 @@ public class ChatPanel extends Panel {
     private ConversationService conversationService = Services.get(ConversationService.class);
     private Conversation conversation;
 
+    private ChatHeaderPanel headerPanel = new ChatHeaderPanel("New chat", "Enter a prompt into the box below.");
     private MessagePanel messagePanel = new MessagePanel();
 
     public ChatPanel(Conversation conversation) {
         setLayout(new BorderLayout());
+
+        setBackground(Palette.BACKGROUND_2);
 
         if (conversation != null) {
             this.setConversation(conversation);
@@ -27,46 +31,9 @@ public class ChatPanel extends Panel {
             }
         }
 
+        add(this.headerPanel, BorderLayout.NORTH);
         add(new ScrollPane(this.messagePanel), BorderLayout.CENTER);
         add(new ScrollPane(new ChatInputPanel(prompt -> this.onSubmit(prompt))), BorderLayout.SOUTH);
-
-        // TEMP
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
-        this.messagePanel.addMessage("asd", false);
     }
 
     public ChatPanel() {
@@ -75,6 +42,7 @@ public class ChatPanel extends Panel {
 
     private void setConversation(Conversation conversation) {
         this.conversation = conversation;
+        this.headerPanel.setHeader(conversation.name);
     }
 
     private void onSubmit(String prompt) {

@@ -16,6 +16,7 @@ public class ScrollPane extends JScrollPane {
     public ScrollPane(Component view) {
         super(view);
         setBorder(null);
+        getViewport().setBackground(Palette.TRANSPARENT);
 
         setHorizontalScrollBar(null);
         getVerticalScrollBar().setUI(new UI());
