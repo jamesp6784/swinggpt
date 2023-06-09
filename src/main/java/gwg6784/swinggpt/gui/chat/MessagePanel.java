@@ -5,10 +5,11 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 import javax.swing.Scrollable;
 
-public class MessagePanel extends JPanel implements Scrollable {
+import gwg6784.swinggpt.gui.common.Panel;
+
+public class MessagePanel extends Panel implements Scrollable {
     public static final int SCROLL_AMOUNT = 14;
 
     public MessagePanel() {

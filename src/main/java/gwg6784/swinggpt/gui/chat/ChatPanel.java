@@ -1,10 +1,9 @@
 package gwg6784.swinggpt.gui.chat;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
+import gwg6784.swinggpt.gui.common.Panel;
+import gwg6784.swinggpt.gui.common.ScrollPane;
 import gwg6784.swinggpt.services.Services;
-import gwg6784.swinggpt.services.TitleService;
+import gwg6784.swinggpt.services.WindowService;
 import gwg6784.swinggpt.services.conversation.ConversationService;
 import gwg6784.swinggpt.services.conversation.models.Conversation;
 import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
@@ -12,9 +11,9 @@ import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
 import java.awt.BorderLayout;
 import java.util.concurrent.CompletableFuture;
 
-public class ChatPanel extends JPanel {
+public class ChatPanel extends Panel {
     private ConversationService conversationService = Services.get(ConversationService.class);
-    private TitleService titleService = Services.get(TitleService.class);
+    private WindowService titleService = Services.get(WindowService.class);
     private Conversation conversation;
 
     private MessagePanel messagePanel = new MessagePanel();
@@ -32,8 +31,46 @@ public class ChatPanel extends JPanel {
             this.titleService.setTitle("New chat");
         }
 
-        add(new JScrollPane(this.messagePanel), BorderLayout.CENTER);
-        add(new JScrollPane(new ChatInputPanel(prompt -> this.onSubmit(prompt))), BorderLayout.SOUTH);
+        add(new ScrollPane(this.messagePanel), BorderLayout.CENTER);
+        add(new ScrollPane(new ChatInputPanel(prompt -> this.onSubmit(prompt))), BorderLayout.SOUTH);
+
+        // TEMP
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
+        this.messagePanel.addMessage("asd", false);
     }
 
     public ChatPanel() {

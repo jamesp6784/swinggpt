@@ -8,7 +8,7 @@ import javax.swing.JTextArea;
 import javax.swing.Timer;
 
 public class MessageBlock extends JTextArea {
-    private static final int INITIAL_DELAY = 1000;
+    private static final int INITIAL_DELAY = 20;
 
     private String text;
     private int animationIndex = 0;

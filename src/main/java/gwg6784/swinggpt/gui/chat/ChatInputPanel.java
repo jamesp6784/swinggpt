@@ -6,14 +6,14 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.function.Consumer;
 
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Scrollable;
 
+import gwg6784.swinggpt.gui.common.Panel;
 import gwg6784.swinggpt.gui.listeners.DocumentUpdateListener;
 import gwg6784.swinggpt.gui.listeners.KeyPressedListener;
 
-public class ChatInputPanel extends JPanel implements Scrollable {
+public class ChatInputPanel extends Panel implements Scrollable {
     public static final int INPUT_MAX_HEIGHT = 160;
     public static final int SCROLL_AMOUNT = 6;
 
