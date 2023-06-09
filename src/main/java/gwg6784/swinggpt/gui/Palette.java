@@ -10,6 +10,9 @@ public final class Palette {
     public static final Color BACKGROUND_1 = new Color(231, 231, 231);
     public static final Color BORDER = new Color(206, 206, 206);
 
+    public static final Color ACCENT_TRANSPARENT = new Color(116, 170, 156, 100);
+    public static final Color ACCENT_DARK_TRANSPARENT = ACCENT_TRANSPARENT.darker();
+
     public static final Color DEBUG = Color.RED;
     public static final Color DEBUG_2 = Color.BLUE;
 }
