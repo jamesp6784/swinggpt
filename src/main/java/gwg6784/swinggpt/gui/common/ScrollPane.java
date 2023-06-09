@@ -14,6 +14,9 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import gwg6784.swinggpt.gui.Palette;
 
+/**
+ * A modernized scroll pane (horizontal scrolling disabled)
+ */
 public class ScrollPane extends JScrollPane {
     public ScrollPane(Component view) {
         super(view);

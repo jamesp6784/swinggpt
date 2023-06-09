@@ -12,6 +12,9 @@ import gwg6784.swinggpt.Util;
 import gwg6784.swinggpt.gui.Fonts;
 import gwg6784.swinggpt.gui.Palette;
 
+/**
+ * A modern text are that supports placeholders
+ */
 public class TextArea extends JTextArea {
     private String placeholder;
 

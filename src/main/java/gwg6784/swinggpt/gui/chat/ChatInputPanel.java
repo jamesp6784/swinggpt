@@ -15,6 +15,9 @@ import gwg6784.swinggpt.gui.common.TextArea;
 import gwg6784.swinggpt.gui.listeners.DocumentUpdateListener;
 import gwg6784.swinggpt.gui.listeners.KeyPressedListener;
 
+/**
+ * The scrollable input wrapper for the chat panel
+ */
 public class ChatInputPanel extends Panel implements Scrollable {
     public static final int INPUT_MAX_HEIGHT = 160;
     public static final int SCROLL_AMOUNT = 6;
@@ -29,9 +32,11 @@ public class ChatInputPanel extends Panel implements Scrollable {
         this.textArea.getDocument().addDocumentListener((DocumentUpdateListener) e -> getRootPane().revalidate());
         this.textArea.addKeyListener((KeyPressedListener) e -> {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                // Shift + enter to create newline
                 if (e.isShiftDown()) {
                     textArea.append("\n");
                 } else {
+                    // Otherwise we submit
                     submitConsumer.accept(textArea.getText());
                     e.consume();
                 }

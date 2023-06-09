@@ -14,6 +14,9 @@ import gwg6784.swinggpt.services.Services;
 import gwg6784.swinggpt.services.conversation.ConversationService;
 import gwg6784.swinggpt.services.conversation.models.Conversation;
 
+/**
+ * The master panel that handles navigation, etc.
+ */
 public class MainPanel extends Panel {
     private static final int KEY_NEW_CHAT = 1;
     private static final int KEY_CLEAR_CHATS = 2;

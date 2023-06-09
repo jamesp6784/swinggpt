@@ -10,12 +10,16 @@ import gwg6784.swinggpt.gui.frame.Frame;
 import gwg6784.swinggpt.gui.listeners.MouseDraggedListener;
 import gwg6784.swinggpt.gui.listeners.MousePressedListener;
 
+/**
+ * A panel that allows the user to drag the window with it
+ */
 public class DraggablePanel extends Panel {
     private int startX;
     private int startY;
 
     public DraggablePanel(int borderFlags) {
         super(borderFlags);
+
         addMouseListener((MousePressedListener) e -> {
             this.startX = e.getX();
             this.startY = e.getY();

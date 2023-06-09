@@ -5,6 +5,9 @@ package gwg6784.swinggpt.services;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A static convenience class for retrieving state from wherever needed
+ */
 public class Services {
     private static final Map<Class<?>, Object> services = new HashMap<>();
 

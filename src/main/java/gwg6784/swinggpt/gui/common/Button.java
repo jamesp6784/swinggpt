@@ -17,6 +17,10 @@ import javax.swing.Icon;
 
 import gwg6784.swinggpt.gui.Palette;
 
+/**
+ * An extensible button (well, actually a Panel), that supports complex layouts
+ * inside it
+ */
 public class Button extends Panel {
     private static final int ROUNDING = 8;
 
@@ -74,6 +78,9 @@ public class Button extends Panel {
         });
     }
 
+    /**
+     * Overridden to draw rounded hover / click effects
+     */
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();

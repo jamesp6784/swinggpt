@@ -9,6 +9,9 @@ import javax.swing.JLabel;
 
 import gwg6784.swinggpt.gui.Fonts;
 
+/**
+ * A basic label pre-set with fonts
+ */
 public class Label extends JLabel {
     public Label(String text) {
         this(text, Fonts.DEFAULT);

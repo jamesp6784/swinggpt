@@ -22,6 +22,9 @@ import gwg6784.swinggpt.gui.common.Panel;
 import gwg6784.swinggpt.services.Services;
 import gwg6784.swinggpt.services.WindowService;
 
+/**
+ * A modern title bar alternative with an icon and window buttons
+ */
 public class TitleBar extends DraggablePanel {
     private WindowService windowService = Services.get(WindowService.class);
 
@@ -43,6 +46,9 @@ public class TitleBar extends DraggablePanel {
         add(rightGroup, BorderLayout.EAST);
     }
 
+    /**
+     * Represents a group of icon buttons on the titlebar
+     */
     private static class ButtonGroup extends Panel {
         private boolean addedFirst = false;
 
@@ -63,6 +69,9 @@ public class TitleBar extends DraggablePanel {
         }
     }
 
+    /**
+     * Overriden to draw the window title in the exact middle
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);

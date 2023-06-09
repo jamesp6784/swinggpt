@@ -10,6 +10,9 @@ import javax.swing.BoxLayout;
 import gwg6784.swinggpt.gui.common.Label;
 import gwg6784.swinggpt.gui.common.Panel;
 
+/**
+ * The splash screen panel landed on at app startup
+ */
 public class WelcomePanel extends Panel {
     public WelcomePanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

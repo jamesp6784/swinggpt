@@ -5,6 +5,10 @@ package gwg6784.swinggpt.gui.common;
 import java.awt.BorderLayout;
 import java.awt.Component;
 
+/**
+ * A utility component to easily switch out the contents
+ * for navigation, etc.
+ */
 public class Slot extends Panel {
     public Slot(Component inner) {
         setLayout(new BorderLayout());

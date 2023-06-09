@@ -10,6 +10,9 @@ import gwg6784.swinggpt.gui.Palette;
 import gwg6784.swinggpt.gui.common.Panel;
 import gwg6784.swinggpt.gui.common.Label;
 
+/**
+ * A header component for the chat panel
+ */
 public class ChatHeaderPanel extends Panel {
     private final Label headerLabel;
     private final Label subtextLabel;

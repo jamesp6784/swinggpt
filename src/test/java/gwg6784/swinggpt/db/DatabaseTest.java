@@ -21,30 +21,30 @@ import static org.junit.Assert.*;
  */
 public class DatabaseTest {
     private Database db;
-    
+
     public DatabaseTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
-        
+
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         this.db = Database.connect();
     }
-    
+
     @After
     public void tearDown() {
         try {
-              this.db.deleteAllConversations();      
+            this.db.deleteAllConversations();
         } catch (SQLException e) {
-            
+
         }
 
         this.db = null;
@@ -65,12 +65,12 @@ public class DatabaseTest {
     public void testGetConversations() throws Exception {
         UUID conversationId1 = db.createConversation("Conversation 1", new Date());
         UUID conversationId2 = db.createConversation("Conversation 2", new Date());
-        
+
         List<Conversation> result = db.getConversations();
-        
+
         assertNotNull(result);
         assertEquals(result.size(), 2);
-        
+
         db.deleteConversation(conversationId1);
         db.deleteConversation(conversationId2);
     }
@@ -83,13 +83,12 @@ public class DatabaseTest {
         UUID conversationId1 = db.createConversation("Conversation 1", new Date());
         UUID entryId1 = db.createEntry(conversationId1, "hello", "there", new Date());
 
-        
         List<ConversationEntry> result = db.getConversationHistory(conversationId1);
-        
+
         assertNotNull(result);
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).prompt, "hello");
-        
+
         db.deleteConversation(conversationId1);
     }
 
@@ -100,9 +99,9 @@ public class DatabaseTest {
     public void testCreateConversation() throws Exception {
         UUID conversationId1 = db.createConversation("Conversation 1", new Date());
         assertNotNull(conversationId1);
-        // Means was successfully created, we test
+        // Means it was successfully created, we test
         // getting in the above tests
-        
+
         db.deleteConversation(conversationId1);
     }
 
@@ -113,13 +112,12 @@ public class DatabaseTest {
     public void testCreateEntry() throws Exception {
         UUID conversationId1 = db.createConversation("Conversation 1", new Date());
         UUID entryId1 = db.createEntry(conversationId1, "hello", "there", new Date());
-        
 
         assertNotNull(conversationId1);
         assertNotNull(entryId1);
-        // Means was successfully created, we test
+        // Means it was successfully created, we test
         // getting in the above tests
-        
+
         db.deleteConversation(conversationId1);
     }
 
@@ -133,7 +131,7 @@ public class DatabaseTest {
 
         List<Conversation> result = db.getConversations();
         assertEquals(result.size(), 0);
-        
+
     }
 
     /**
@@ -149,5 +147,5 @@ public class DatabaseTest {
         List<Conversation> result = db.getConversations();
         assertEquals(result.size(), 0);
     }
-    
+
 }

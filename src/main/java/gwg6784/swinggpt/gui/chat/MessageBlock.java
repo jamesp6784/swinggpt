@@ -8,6 +8,9 @@ import java.awt.Dimension;
 
 import gwg6784.swinggpt.gui.common.TextArea;
 
+/**
+ * An abstract "block" of message
+ */
 public abstract class MessageBlock extends TextArea {
     public MessageBlock(String text, Color color) {
         setEditable(false);

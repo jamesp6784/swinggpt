@@ -4,6 +4,9 @@ package gwg6784.swinggpt.gui;
 
 import java.awt.Color;
 
+/**
+ * Utility class for colors used
+ */
 public final class Palette {
     private Palette() {
     }

@@ -6,6 +6,9 @@ import javax.swing.Timer;
 
 import gwg6784.swinggpt.gui.Palette;
 
+/**
+ * A reply message component
+ */
 public class ReplyMessageBlock extends MessageBlock {
     private static final int INITIAL_DELAY = 20;
 
@@ -30,6 +33,9 @@ public class ReplyMessageBlock extends MessageBlock {
         }
     }
 
+    /**
+     * Displays the next character to be shown in the animation
+     */
     private void animate() {
         char nextChar = this.text.charAt(this.animationIndex++);
 

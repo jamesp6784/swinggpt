@@ -19,6 +19,9 @@ import gwg6784.swinggpt.Util;
 import gwg6784.swinggpt.services.conversation.models.Conversation;
 import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
 
+/**
+ * A class encapsulating all database-related communications
+ */
 public class Database {
     private static final String CONNECTION_STRING = "jdbc:derby:db/swinggpt;create=true";
     private static final String STATUS_TABLE_ALREADY_EXISTS = "X0Y32";
@@ -30,6 +33,9 @@ public class Database {
         this.conn = conn;
     }
 
+    /**
+     * Connect to the database
+     */
     public static Database connect() {
         try {
             Connection conn = DriverManager.getConnection(CONNECTION_STRING);
@@ -41,6 +47,9 @@ public class Database {
         }
     }
 
+    /**
+     * Get a list of conversations
+     */
     public List<Conversation> getConversations() throws SQLException {
         return this.query("SELECT * FROM conversations ORDER BY ts DESC",
                 rs -> new Conversation(
@@ -49,6 +58,9 @@ public class Database {
                         parseSqlDateString(rs.getString("ts"))));
     }
 
+    /**
+     * Gets history of a conversation
+     */
     public List<ConversationEntry> getConversationHistory(UUID id) throws SQLException {
         return this.query("SELECT * FROM entries WHERE conversation_id = ? ORDER BY ts",
                 rs -> new ConversationEntry(
@@ -58,22 +70,35 @@ public class Database {
                 id);
     }
 
+    /**
+     * Creates a conversation with a name and the current time
+     */
     public UUID createConversation(String name, Date timestamp) throws SQLException {
         UUID id = UUID.randomUUID();
         this.update("INSERT INTO conversations VALUES (?, ?, ?)", id, name, timestamp);
         return id;
     }
 
+    /**
+     * Creates a conversation entry with the conversation, prompt, reply and the
+     * current time
+     */
     public UUID createEntry(UUID conversationId, String prompt, String reply, Date timestamp) throws SQLException {
         UUID id = UUID.randomUUID();
         this.update("INSERT INTO entries VALUES (?, ?, ?, ?, ?)", id, conversationId, prompt, reply, timestamp);
         return id;
     }
 
+    /**
+     * Deletes a conversation by its id
+     */
     public void deleteConversation(UUID id) throws SQLException {
         this.update("DELETE FROM conversations WHERE id = ?", id);
     }
 
+    /**
+     * Deletes all conversations in the table
+     */
     public void deleteAllConversations() throws SQLException {
         this.update("DELETE FROM conversations");
     }
@@ -95,9 +120,14 @@ public class Database {
         }
     }
 
+    /**
+     * Creates a PreparedStatement with a query and params
+     */
     private PreparedStatement prepareStatement(String sql, Object... params) throws SQLException {
         PreparedStatement stmt = this.conn.prepareStatement(sql);
 
+        // Derby handles UUIDs and Dates differently, so we need to convert
+        // those two when going to / from the database
         for (int i = 0; i < params.length; i++) {
             Object param = params[i];
             if (param instanceof UUID) {
@@ -112,10 +142,16 @@ public class Database {
         return stmt;
     }
 
+    /**
+     * Executes an update with a query and params
+     */
     private void update(String sql, Object... params) throws SQLException {
         this.prepareStatement(sql, params).executeUpdate();
     }
 
+    /**
+     * Executes a query with an SQL query, a ResultSet mapper, and params
+     */
     private <T> List<T> query(String sql, ResultMapper<T> mapFn, Object... params) throws SQLException {
         ResultSet rs = this.prepareStatement(sql, params).executeQuery();
         List<T> list = new ArrayList<>();

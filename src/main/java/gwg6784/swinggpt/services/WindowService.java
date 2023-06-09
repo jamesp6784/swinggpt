@@ -4,6 +4,9 @@ package gwg6784.swinggpt.services;
 
 import javax.swing.JFrame;
 
+/**
+ * Allows control of the window from a service
+ */
 public class WindowService {
     private JFrame registeredFrame;
 

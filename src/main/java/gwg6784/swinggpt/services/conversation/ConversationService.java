@@ -20,6 +20,7 @@ import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
  * Service for getting, creating and deleting conversations.
  */
 public class ConversationService {
+    /// A prompt for OpenAI to generate a title for a conversation
     private static final String TITLE_PROMPT_TEMPLATE = "---BEGIN CONVERSATION---\n%s\n---END CONVERSATION---\nSummarize the conversation in 5 words or less";
 
     private final Database db = Database.connect();
@@ -28,13 +29,19 @@ public class ConversationService {
     public ConversationService() {
     }
 
+    /**
+     * Create a new conversation
+     */
     public CompletableFuture<Pair<Conversation, String>> newConversation(String prompt) {
+        // Future for chatbot reply
         CompletableFuture<String> replyFuture = CompletableFuture
                 .supplyAsync((ThrowableSupplier<String>) () -> OpenAiApi.chat(prompt));
 
+        // Future for conversation title generation reply
         CompletableFuture<String> titleFuture = CompletableFuture
                 .supplyAsync((ThrowableSupplier<String>) () -> OpenAiApi.chat(createTitlePrompt(prompt)));
 
+        // Future stage when both futures complete
         ThrowableBiFunction<String, String, Pair<Conversation, String>> bothRequestsFinished = (reply, title) -> {
             Date date = new Date(new java.util.Date().getTime());
             UUID conversationId = this.db.createConversation(title, date);
@@ -43,12 +50,16 @@ public class ConversationService {
             Conversation conv = new Conversation(conversationId, title, date);
             this.notifyListListeners();
 
+            // Return both new conversation and the reply
             return new Pair<>(conv, reply);
         };
 
         return replyFuture.thenCombine(titleFuture, bothRequestsFinished);
     }
 
+    /**
+     * Continue an existing conversation
+     */
     public CompletableFuture<String> continueConversation(UUID conversationId, String prompt) {
         ThrowableSupplier<String> supplier = () -> {
             List<ConversationEntry> conv = this.db.getConversationHistory(conversationId);
@@ -77,16 +88,25 @@ public class ConversationService {
                 .executeOrPanic((ThrowableSupplier<List<ConversationEntry>>) () -> this.db.getConversationHistory(id));
     }
 
+    /**
+     * Delete a conversation
+     */
     public void deleteConversation(UUID id) {
         this.executeOrPanic((ThrowableRunnable) () -> this.db.deleteConversation(id));
         this.notifyListListeners();
     }
 
+    /**
+     * Clear all conversations
+     */
     public void deleteAllConversations() {
         this.executeOrPanic((ThrowableRunnable) () -> this.db.deleteAllConversations());
         this.notifyListListeners();
     }
 
+    /**
+     * Listen to changes in the conversation list
+     */
     public void addConversationListListener(Runnable listener) {
         this.conversationListObservers.add(listener);
     }

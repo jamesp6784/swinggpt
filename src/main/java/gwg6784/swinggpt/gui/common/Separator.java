@@ -9,6 +9,9 @@ import javax.swing.border.CompoundBorder;
 import gwg6784.swinggpt.Util;
 import gwg6784.swinggpt.gui.Palette;
 
+/**
+ * A padded horizontal separator
+ */
 public class Separator extends Panel {
     private static final int PADDING = 8;
 

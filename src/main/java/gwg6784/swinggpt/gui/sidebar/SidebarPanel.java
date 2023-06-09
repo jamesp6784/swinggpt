@@ -12,6 +12,9 @@ import gwg6784.swinggpt.Util;
 import gwg6784.swinggpt.gui.common.Panel;
 import gwg6784.swinggpt.gui.common.Separator;
 
+/**
+ * A CRUD-interactable sidebar that supports deletion and dividers
+ */
 public class SidebarPanel extends Panel {
     private static final int SIDEBAR_WIDTH = 320;
 

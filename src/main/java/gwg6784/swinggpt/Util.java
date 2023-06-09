@@ -6,6 +6,9 @@ import java.util.UUID;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
+/**
+ * Utility class
+ */
 public final class Util {
     private Util() {
     }

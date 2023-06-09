@@ -5,6 +5,9 @@ package gwg6784.swinggpt.gui;
 import java.awt.Font;
 import java.io.InputStream;
 
+/**
+ * Utility class for fonts used
+ */
 public final class Fonts {
     private Fonts() {
     }

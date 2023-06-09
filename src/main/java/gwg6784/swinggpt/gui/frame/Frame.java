@@ -25,6 +25,9 @@ import gwg6784.swinggpt.gui.Palette;
 import gwg6784.swinggpt.services.Services;
 import gwg6784.swinggpt.services.WindowService;
 
+/**
+ * A shaded, undecorated frame, which hosts a custom title bar
+ */
 public class Frame extends JFrame {
     private WindowService windowService = Services.get(WindowService.class);
 
@@ -45,7 +48,7 @@ public class Frame extends JFrame {
     }
 
     /**
-     * Panel for drop shadow of the undecorated frame
+     * Panel for drop shadow of the undecorated frame.
      *
      * Adapted from: https://stackoverflow.com/a/21135292
      */

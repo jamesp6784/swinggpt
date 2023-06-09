@@ -21,7 +21,8 @@ public class ChatPanel extends Panel {
     private final ConversationService conversationService = Services.get(ConversationService.class);
     private Conversation conversation;
 
-    private final ChatHeaderPanel headerPanel = new ChatHeaderPanel("New chat", "Enter a prompt into the box below.");
+    private final ChatHeaderPanel headerPanel = new ChatHeaderPanel("New chat",
+            "Enter a prompt into the box below (max 1000 chars)");
     private final MessagePanel messagePanel = new MessagePanel();
     private final ChatInputPanel chatInputPanel = new ChatInputPanel(prompt -> this.onSubmit(prompt));
 
@@ -65,6 +66,7 @@ public class ChatPanel extends Panel {
 
         CompletableFuture<String> replyFut;
 
+        // Simplify reply future by extracting new conversation out
         if (this.conversation == null) {
             replyFut = this.conversationService.newConversation(prompt).thenApply(res -> {
                 this.setConversation(res.getValue0());

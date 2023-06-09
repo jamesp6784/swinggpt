@@ -7,6 +7,9 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Utility class for icons used
+ */
 public final class Icons {
     public Icons() {
     }

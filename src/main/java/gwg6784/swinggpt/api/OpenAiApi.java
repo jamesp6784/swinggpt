@@ -18,6 +18,9 @@ import gwg6784.swinggpt.api.models.ChatRequest;
 import gwg6784.swinggpt.api.models.ChatResponse;
 import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
 
+/**
+ * A class for dealing with the OpenAI API
+ */
 public final class OpenAiApi {
     private static final String ENDPOINT = "https://api.openai.com/v1/chat/completions";
     private static final String BEARER_TOKEN = System.getenv("OPENAI_TOKEN");
