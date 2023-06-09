@@ -83,4 +83,8 @@ public class ChatPanel extends Panel {
             return null;
         });
     }
+
+    public Conversation getConversation() {
+        return this.conversation;
+    }
 }

@@ -3,6 +3,7 @@
 package gwg6784.swinggpt.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,8 +26,6 @@ public class MainPanel extends Panel {
 
     private SidebarPanel sidebarPanel = new SidebarPanel();
     private Slot contentSlot = new Slot(new WelcomePanel());
-
-    private UUID currentConvId;
 
     public MainPanel() {
         setLayout(new BorderLayout());
@@ -63,15 +62,20 @@ public class MainPanel extends Panel {
     }
 
     private void openChat(Conversation conv) {
-        this.currentConvId = conv != null ? conv.id : null;
         this.contentSlot.set(new ChatPanel(conv));
     }
 
     private void deleteChat(UUID id) {
         this.conversationService.deleteConversation(id);
 
-        if (this.currentConvId != null && this.currentConvId.equals(id)) {
-            this.openChat(null);
+        Component currentComponent = this.contentSlot.get();
+
+        if (currentComponent instanceof ChatPanel) {
+            Conversation conv = ((ChatPanel) currentComponent).getConversation();
+
+            if (conv != null && conv.id.equals(id)) {
+                this.openChat(null);
+            }
         }
     }
 }

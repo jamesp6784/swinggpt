@@ -10,10 +10,13 @@ import java.awt.Component;
  * for navigation, etc.
  */
 public class Slot extends Panel {
+    private Component inner;
+
     public Slot(Component inner) {
         setLayout(new BorderLayout());
 
         if (inner != null) {
+            this.inner = inner;
             add(inner, BorderLayout.CENTER);
         }
     }
@@ -25,6 +28,11 @@ public class Slot extends Panel {
     public void set(Component inner) {
         removeAll();
         add(inner);
+        this.inner = inner;
         revalidate();
+    }
+
+    public Component get() {
+        return this.inner;
     }
 }
