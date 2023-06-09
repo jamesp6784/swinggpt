@@ -18,7 +18,7 @@ import gwg6784.swinggpt.services.conversation.models.Conversation;
 import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
 
 public class Database {
-    private static final String CONNECTION_STRING = "jdbc:derby:memory:swinggpt;create=true";
+    private static final String CONNECTION_STRING = "jdbc:derby:db/swinggpt;create=true";
     private static final String STATUS_TABLE_ALREADY_EXISTS = "X0Y32";
     private static final DateFormat SQL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 

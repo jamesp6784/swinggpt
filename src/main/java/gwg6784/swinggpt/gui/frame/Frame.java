@@ -42,6 +42,11 @@ public class Frame extends JFrame {
         this.windowService.registerFrame(this);
     }
 
+    /**
+     * Panel for drop shadow of the undecorated frame
+     *
+     * Adapted from: https://stackoverflow.com/a/21135292
+     */
     private static class UndecoratedFrameInner extends JPanel {
         private BufferedImage shadow;
 
@@ -59,7 +64,6 @@ public class Frame extends JFrame {
             int width = getWidth() - (insets.left + insets.right);
             int height = getHeight() - (insets.top + insets.bottom);
             if (shadow == null) {
-                // Try and "guess" the amount of shadow we can show...
                 int shadowWidth = Math.min(Math.min(insets.left, insets.top), Math.min(insets.right, insets.bottom));
                 shadow = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
                 Graphics2D g2d = shadow.createGraphics();
@@ -68,7 +72,6 @@ public class Frame extends JFrame {
                 g2d.dispose();
                 shadow = generateShadow(shadow, shadowWidth, Color.BLACK, 0.5f);
             }
-            System.out.println(insets);
             g.drawImage(shadow, 0, 0, this);
             g.setColor(Color.BLACK);
             g.fillRect(x, y, width, height);
@@ -129,7 +132,6 @@ public class Frame extends JFrame {
         g2.drawImage(imgSource, x, y, null);
         g2.dispose();
 
-        // ---- Blur here ---
         BufferedImage imgGlow = generateBlur(imgMask, (size * 2), color, alpha);
 
         return imgGlow;
