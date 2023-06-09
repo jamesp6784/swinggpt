@@ -18,5 +18,4 @@ public final class Palette {
     public static final Color ACCENT_DARK_TRANSPARENT = ACCENT_TRANSPARENT.darker();
 
     public static final Color DEBUG = Color.RED;
-    public static final Color DEBUG_2 = Color.BLUE;
 }

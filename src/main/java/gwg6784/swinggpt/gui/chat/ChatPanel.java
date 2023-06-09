@@ -21,6 +21,7 @@ public class ChatPanel extends Panel {
 
     private ChatHeaderPanel headerPanel = new ChatHeaderPanel("New chat", "Enter a prompt into the box below.");
     private MessagePanel messagePanel = new MessagePanel();
+    private ChatInputPanel chatInputPanel = new ChatInputPanel(prompt -> this.onSubmit(prompt));
 
     public ChatPanel(Conversation conversation) {
         setLayout(new BorderLayout());
@@ -37,7 +38,7 @@ public class ChatPanel extends Panel {
 
         add(this.headerPanel, BorderLayout.NORTH);
         add(new ScrollPane(this.messagePanel), BorderLayout.CENTER);
-        add(new ScrollPane(new ChatInputPanel(prompt -> this.onSubmit(prompt))), BorderLayout.SOUTH);
+        add(new ScrollPane(this.chatInputPanel), BorderLayout.SOUTH);
     }
 
     public ChatPanel() {
@@ -51,7 +52,14 @@ public class ChatPanel extends Panel {
     }
 
     private void onSubmit(String prompt) {
+        if (prompt.trim().isEmpty() || prompt.length() > 1000 || this.messagePanel.getLoading()) {
+            return;
+        }
+
+        this.chatInputPanel.clear();
+
         this.messagePanel.addPrompt(prompt);
+        this.messagePanel.setLoading();
 
         CompletableFuture<String> replyFut;
 

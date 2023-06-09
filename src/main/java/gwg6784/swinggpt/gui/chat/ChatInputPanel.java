@@ -17,27 +17,32 @@ public class ChatInputPanel extends Panel implements Scrollable {
     public static final int INPUT_MAX_HEIGHT = 160;
     public static final int SCROLL_AMOUNT = 6;
 
+    private TextArea textArea;
+
     public ChatInputPanel(Consumer<String> submitConsumer) {
         setLayout(new BorderLayout());
 
-        TextArea textArea = new TextArea();
+        this.textArea = new TextArea();
 
-        textArea.getDocument().addDocumentListener((DocumentUpdateListener) e -> getRootPane().revalidate());
-        textArea.addKeyListener((KeyPressedListener) e -> {
+        this.textArea.getDocument().addDocumentListener((DocumentUpdateListener) e -> getRootPane().revalidate());
+        this.textArea.addKeyListener((KeyPressedListener) e -> {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 if (e.isShiftDown()) {
                     textArea.append("\n");
                 } else {
                     submitConsumer.accept(textArea.getText());
-                    textArea.setText("");
                     e.consume();
                 }
             }
         });
 
-        textArea.setPlaceholder("Send a message");
+        this.textArea.setPlaceholder("Send a message");
 
         add(textArea, BorderLayout.CENTER);
+    }
+
+    public void clear() {
+        this.textArea.setText("");
     }
 
     @Override

@@ -13,6 +13,7 @@ public final class Icons {
     public static ImageIcon CLOSE_ICON = loadIcon("icons/close.png");
     public static ImageIcon MINIMIZE_ICON = loadIcon("icons/minimize.png");
     public static ImageIcon DELETE_ICON = loadIcon("icons/delete.png");
+    public static ImageIcon LOADER_ICON = loadIcon("icons/loader.gif");
 
     public static Image LOGO_IMG = loadImage("icons/big.png");
 
