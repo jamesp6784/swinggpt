@@ -9,9 +9,13 @@ import gwg6784.swinggpt.services.conversation.models.Conversation;
 import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
 
 import java.awt.BorderLayout;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.concurrent.CompletableFuture;
 
 public class ChatPanel extends Panel {
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy  hh:mma");
+
     private ConversationService conversationService = Services.get(ConversationService.class);
     private Conversation conversation;
 
@@ -43,6 +47,7 @@ public class ChatPanel extends Panel {
     private void setConversation(Conversation conversation) {
         this.conversation = conversation;
         this.headerPanel.setHeader(conversation.name);
+        this.headerPanel.setSubtext(DATE_FORMAT.format(conversation.timestamp));
     }
 
     private void onSubmit(String prompt) {
