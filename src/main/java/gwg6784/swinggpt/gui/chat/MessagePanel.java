@@ -1,12 +1,13 @@
 package gwg6784.swinggpt.gui.chat;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Scrollable;
 
+import gwg6784.swinggpt.Util;
 import gwg6784.swinggpt.gui.Palette;
 import gwg6784.swinggpt.gui.common.Panel;
 
@@ -16,11 +17,22 @@ public class MessagePanel extends Panel implements Scrollable {
     public MessagePanel() {
         setBackground(Palette.BACKGROUND_2);
 
+        setBorder(Util.emptyBorder(16));
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
-    public void addMessage(String message, boolean animate) {
-        add(new MessageBlock(message, Color.black, animate));
+    public void addPrompt(String prompt) {
+        this.addMessageBlock(new PromptMessageBlock(prompt));
+    }
+
+    public void addReply(String message, boolean animate) {
+        this.addMessageBlock(new ReplyMessageBlock(message, animate));
+    }
+
+    private void addMessageBlock(MessageBlock block) {
+        add(block);
+        add(Box.createVerticalStrut(16));
     }
 
     @Override

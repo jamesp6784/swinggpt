@@ -30,8 +30,8 @@ public class ChatPanel extends Panel {
         if (conversation != null) {
             this.setConversation(conversation);
             for (ConversationEntry entry : this.conversationService.getConversationHistory(conversation.id)) {
-                this.messagePanel.addMessage(entry.prompt, false);
-                this.messagePanel.addMessage(entry.reply, false);
+                this.messagePanel.addPrompt(entry.prompt);
+                this.messagePanel.addReply(entry.reply, false);
             }
         }
 
@@ -51,7 +51,7 @@ public class ChatPanel extends Panel {
     }
 
     private void onSubmit(String prompt) {
-        this.messagePanel.addMessage(prompt, false);
+        this.messagePanel.addPrompt(prompt);
 
         CompletableFuture<String> replyFut;
 
@@ -65,7 +65,7 @@ public class ChatPanel extends Panel {
         }
 
         replyFut.thenAccept(reply -> {
-            messagePanel.addMessage(reply, true);
+            messagePanel.addReply(reply, true);
         }).exceptionally(e -> {
             e.printStackTrace();
             // TODO: handle

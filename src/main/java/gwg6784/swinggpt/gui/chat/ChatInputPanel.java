@@ -35,6 +35,8 @@ public class ChatInputPanel extends Panel implements Scrollable {
             }
         });
 
+        textArea.setPlaceholder("Send a message");
+
         add(textArea, BorderLayout.CENTER);
     }
 
