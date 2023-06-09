@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.swing.BoxLayout;
 
 import gwg6784.swinggpt.gui.common.Panel;
-import gwg6784.swinggpt.gui.listeners.MouseClickedListener;
 
 public class SidebarPanel extends Panel {
     private Map<Object, SidebarItem> items = new HashMap<>();
@@ -23,7 +22,7 @@ public class SidebarPanel extends Panel {
 
     public void addItem(Object key, String name, Runnable onSelect, Runnable onDelete) {
         SidebarItem item = new SidebarItem(name);
-        item.addMouseListener((MouseClickedListener) a -> onSelect.run());
+        item.addClickListener(() -> onSelect.run());
         items.put(key, item);
         add(item);
         revalidate();

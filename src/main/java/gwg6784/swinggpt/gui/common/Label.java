@@ -12,13 +12,13 @@ public class Label extends JLabel {
         this(text, Fonts.DEFAULT);
     }
 
+    public Label(String text, Font font, int fontSize) {
+        this(text, font.deriveFont(fontSize));
+    }
+
     public Label(String text, Font font) {
         super(text);
         setFont(font);
-    }
-
-    public Label(String text, Font font, int fontSize) {
-        this(text, font.deriveFont(fontSize));
     }
 
     public Label(Icon icon) {

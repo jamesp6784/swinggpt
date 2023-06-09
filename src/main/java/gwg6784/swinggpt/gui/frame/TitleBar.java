@@ -14,13 +14,13 @@ import gwg6784.swinggpt.Util;
 import gwg6784.swinggpt.gui.Fonts;
 import gwg6784.swinggpt.gui.Icons;
 import gwg6784.swinggpt.gui.common.Button;
-import gwg6784.swinggpt.gui.common.DraggableSlot;
+import gwg6784.swinggpt.gui.common.DraggablePanel;
 import gwg6784.swinggpt.gui.common.Label;
 import gwg6784.swinggpt.gui.common.Panel;
 import gwg6784.swinggpt.services.Services;
 import gwg6784.swinggpt.services.WindowService;
 
-public class TitleBar extends Panel {
+public class TitleBar extends DraggablePanel {
     private WindowService windowService = Services.get(WindowService.class);
 
     private String title;
@@ -38,7 +38,6 @@ public class TitleBar extends Panel {
         rightGroup.addButton(Icons.CLOSE_ICON, () -> this.windowService.close());
 
         add(new Label(Icons.LOGO_ICON), BorderLayout.WEST);
-        add(new DraggableSlot(), BorderLayout.CENTER);
         add(rightGroup, BorderLayout.EAST);
     }
 

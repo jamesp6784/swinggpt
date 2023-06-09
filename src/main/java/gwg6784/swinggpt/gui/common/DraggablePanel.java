@@ -1,6 +1,5 @@
 package gwg6784.swinggpt.gui.common;
 
-import java.awt.Component;
 import java.awt.Point;
 
 import javax.swing.SwingUtilities;
@@ -9,13 +8,12 @@ import gwg6784.swinggpt.gui.frame.Frame;
 import gwg6784.swinggpt.gui.listeners.MouseDraggedListener;
 import gwg6784.swinggpt.gui.listeners.MousePressedListener;
 
-public class DraggableSlot extends Slot {
+public class DraggablePanel extends Panel {
     private int startX;
     private int startY;
 
-    public DraggableSlot(Component inner) {
-        super(inner);
-
+    public DraggablePanel(int borderFlags) {
+        super(borderFlags);
         addMouseListener((MousePressedListener) e -> {
             this.startX = e.getX();
             this.startY = e.getY();
@@ -29,7 +27,11 @@ public class DraggableSlot extends Slot {
         });
     }
 
-    public DraggableSlot() {
-        this(null);
+    public DraggablePanel(boolean border) {
+        this(BORDER_TOP | BORDER_LEFT | BORDER_BOTTOM | BORDER_RIGHT);
+    }
+
+    public DraggablePanel() {
+        this(0);
     }
 }

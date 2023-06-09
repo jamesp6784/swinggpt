@@ -1,5 +1,6 @@
 package gwg6784.swinggpt.gui.common;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -14,7 +15,7 @@ import javax.swing.Icon;
 
 import gwg6784.swinggpt.gui.Palette;
 
-public class Button extends Slot {
+public class Button extends Panel {
     private static final int ROUNDING = 8;
 
     private Set<Runnable> listeners = new HashSet<>();
@@ -29,8 +30,16 @@ public class Button extends Slot {
         this(new Label(icon));
     }
 
+    public Button() {
+        this((Component) null);
+    }
+
     public Button(Component comp) {
-        super(comp);
+        setLayout(new BorderLayout());
+        if (comp != null) {
+            add(comp, BorderLayout.CENTER);
+        }
+
         setBackground(Palette.TRANSPARENT);
 
         this.addMouseListener(new MouseAdapter() {
