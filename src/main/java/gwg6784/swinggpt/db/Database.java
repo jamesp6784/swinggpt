@@ -5,7 +5,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,8 +18,9 @@ import gwg6784.swinggpt.services.conversation.models.Conversation;
 import gwg6784.swinggpt.services.conversation.models.ConversationEntry;
 
 public class Database {
-    private static final String CONNECTION_STRING = "jdbc:derby:memory:demo;create=true";
+    private static final String CONNECTION_STRING = "jdbc:derby:memory:swinggpt;create=true";
     private static final String STATUS_TABLE_ALREADY_EXISTS = "X0Y32";
+    private static final DateFormat SQL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
     private Connection conn;
 
@@ -35,24 +40,31 @@ public class Database {
     }
 
     public List<Conversation> getConversations() throws SQLException {
-        return this.query("SELECT * FROM conversations",
-                rs -> new Conversation(Util.uuidFromBytes(rs.getBytes("id")), rs.getString("name")));
+        return this.query("SELECT * FROM conversations ORDER BY ts DESC",
+                rs -> new Conversation(
+                        Util.uuidFromBytes(rs.getBytes("id")),
+                        rs.getString("name"),
+                        parseSqlDateString(rs.getString("ts"))));
     }
 
     public List<ConversationEntry> getConversationHistory(UUID id) throws SQLException {
-        return this.query("SELECT * FROM entries WHERE conversation_id = ?",
-                rs -> new ConversationEntry(rs.getString("prompt"), rs.getString("reply")), id);
+        return this.query("SELECT * FROM entries WHERE conversation_id = ? ORDER BY ts",
+                rs -> new ConversationEntry(
+                        rs.getString("prompt"),
+                        rs.getString("reply"),
+                        parseSqlDateString(rs.getString("ts"))),
+                id);
     }
 
-    public UUID createConversation(String name) throws SQLException {
+    public UUID createConversation(String name, Date timestamp) throws SQLException {
         UUID id = UUID.randomUUID();
-        this.update("INSERT INTO conversations VALUES (?, ?)", id, name);
+        this.update("INSERT INTO conversations VALUES (?, ?, ?)", id, name, timestamp);
         return id;
     }
 
-    public UUID createEntry(UUID conversationId, String prompt, String reply) throws SQLException {
+    public UUID createEntry(UUID conversationId, String prompt, String reply, Date timestamp) throws SQLException {
         UUID id = UUID.randomUUID();
-        this.update("INSERT INTO entries VALUES (?, ?, ?, ?)", id, conversationId, prompt, reply);
+        this.update("INSERT INTO entries VALUES (?, ?, ?, ?, ?)", id, conversationId, prompt, reply, timestamp);
         return id;
     }
 
@@ -65,9 +77,10 @@ public class Database {
     }
 
     private void ensureTablesCreated() throws SQLException {
-        this.ensureTableCreated("CREATE TABLE conversations (id CHAR(16) FOR BIT DATA PRIMARY KEY, name VARCHAR(128))");
         this.ensureTableCreated(
-                "CREATE TABLE entries (id CHAR(16) FOR BIT DATA PRIMARY KEY, conversation_id CHAR(16) FOR BIT DATA REFERENCES conversations(id) ON DELETE CASCADE, prompt VARCHAR(1000), reply VARCHAR(4000))");
+                "CREATE TABLE conversations (id CHAR(16) FOR BIT DATA PRIMARY KEY, name VARCHAR(128), ts TIMESTAMP)");
+        this.ensureTableCreated(
+                "CREATE TABLE entries (id CHAR(16) FOR BIT DATA PRIMARY KEY, conversation_id CHAR(16) FOR BIT DATA REFERENCES conversations(id) ON DELETE CASCADE, prompt VARCHAR(1000), reply VARCHAR(4000), ts TIMESTAMP)");
     }
 
     private void ensureTableCreated(String sql) throws SQLException {
@@ -87,6 +100,8 @@ public class Database {
             Object param = params[i];
             if (param instanceof UUID) {
                 stmt.setBytes(i + 1, Util.uuidToBytes((UUID) param));
+            } else if (param instanceof Date) {
+                stmt.setString(i + 1, SQL_DATE_FORMAT.format((Date) param));
             } else {
                 stmt.setObject(i + 1, params[i]);
             }
@@ -108,5 +123,13 @@ public class Database {
         }
 
         return list;
+    }
+
+    private static Date parseSqlDateString(String str) {
+        try {
+            return SQL_DATE_FORMAT.parse(str);
+        } catch (ParseException e) {
+            return new Date(0);
+        }
     }
 }

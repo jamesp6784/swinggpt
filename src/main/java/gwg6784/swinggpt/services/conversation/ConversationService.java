@@ -2,6 +2,7 @@
 
 package gwg6784.swinggpt.services.conversation;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,10 +36,11 @@ public class ConversationService {
                 .supplyAsync((ThrowableSupplier<String>) () -> OpenAiApi.chat(createTitlePrompt(prompt)));
 
         ThrowableBiFunction<String, String, Pair<Conversation, String>> bothRequestsFinished = (reply, title) -> {
-            UUID conversationId = this.db.createConversation(title);
-            this.db.createEntry(conversationId, prompt, reply);
+            Date date = new Date(new java.util.Date().getTime());
+            UUID conversationId = this.db.createConversation(title, date);
+            this.db.createEntry(conversationId, prompt, reply, date);
 
-            Conversation conv = new Conversation(conversationId, title);
+            Conversation conv = new Conversation(conversationId, title, date);
             this.notifyListListeners();
 
             return new Pair<>(conv, reply);
@@ -57,7 +59,8 @@ public class ConversationService {
 
             String reply = OpenAiApi.chat(prompt, conv);
 
-            this.db.createEntry(conversationId, prompt, reply);
+            Date date = new Date(new java.util.Date().getTime());
+            this.db.createEntry(conversationId, prompt, reply, date);
 
             return reply;
         };
