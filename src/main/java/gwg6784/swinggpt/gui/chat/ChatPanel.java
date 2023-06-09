@@ -1,3 +1,5 @@
+// Written by James P. (21154854)
+
 package gwg6784.swinggpt.gui.chat;
 
 import gwg6784.swinggpt.gui.Palette;
@@ -16,12 +18,12 @@ import java.util.concurrent.CompletableFuture;
 public class ChatPanel extends Panel {
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy  hh:mma");
 
-    private ConversationService conversationService = Services.get(ConversationService.class);
+    private final ConversationService conversationService = Services.get(ConversationService.class);
     private Conversation conversation;
 
-    private ChatHeaderPanel headerPanel = new ChatHeaderPanel("New chat", "Enter a prompt into the box below.");
-    private MessagePanel messagePanel = new MessagePanel();
-    private ChatInputPanel chatInputPanel = new ChatInputPanel(prompt -> this.onSubmit(prompt));
+    private final ChatHeaderPanel headerPanel = new ChatHeaderPanel("New chat", "Enter a prompt into the box below.");
+    private final MessagePanel messagePanel = new MessagePanel();
+    private final ChatInputPanel chatInputPanel = new ChatInputPanel(prompt -> this.onSubmit(prompt));
 
     public ChatPanel(Conversation conversation) {
         setLayout(new BorderLayout());

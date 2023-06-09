@@ -1,3 +1,5 @@
+// Written by James P. (21154854)
+
 package gwg6784.swinggpt.gui.common;
 
 import java.awt.Font;

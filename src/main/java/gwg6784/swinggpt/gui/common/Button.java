@@ -1,3 +1,5 @@
+// Written by James P. (21154854)
+
 package gwg6784.swinggpt.gui.common;
 
 import java.awt.BorderLayout;
@@ -18,7 +20,7 @@ import gwg6784.swinggpt.gui.Palette;
 public class Button extends Panel {
     private static final int ROUNDING = 8;
 
-    private Set<Runnable> listeners = new HashSet<>();
+    private final Set<Runnable> listeners = new HashSet<>();
     private boolean hovered = false;
     private boolean held = false;
 
@@ -43,24 +45,29 @@ public class Button extends Panel {
         setBackground(Palette.TRANSPARENT);
 
         this.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent e) {
                 for (Runnable listener : listeners) {
                     listener.run();
                 }
             }
 
+            @Override
             public void mousePressed(MouseEvent e) {
                 setHeld(true);
             }
 
+            @Override
             public void mouseReleased(MouseEvent e) {
                 setHeld(false);
             }
 
+            @Override
             public void mouseEntered(MouseEvent e) {
                 setHovered(true);
             }
 
+            @Override
             public void mouseExited(MouseEvent e) {
                 setHovered(false);
             }

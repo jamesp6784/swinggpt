@@ -1,3 +1,5 @@
+// Written by James P. (21154854)
+
 package gwg6784.swinggpt.gui.chat;
 
 import javax.swing.Timer;
@@ -7,7 +9,7 @@ import gwg6784.swinggpt.gui.Palette;
 public class ReplyMessageBlock extends MessageBlock {
     private static final int INITIAL_DELAY = 20;
 
-    private String text;
+    private final String text;
     private int animationIndex = 0;
     private Timer animationTimer;
 

@@ -1,3 +1,5 @@
+// Written by James P. (21154854)
+
 package gwg6784.swinggpt.gui.frame;
 
 import java.awt.BorderLayout;
@@ -23,7 +25,7 @@ import gwg6784.swinggpt.services.WindowService;
 public class TitleBar extends DraggablePanel {
     private WindowService windowService = Services.get(WindowService.class);
 
-    private String title;
+    private final String title;
 
     public TitleBar(String title) {
         super(BORDER_BOTTOM);

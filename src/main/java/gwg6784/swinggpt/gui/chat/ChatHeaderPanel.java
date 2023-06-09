@@ -1,3 +1,5 @@
+// Written by James P. (21154854)
+
 package gwg6784.swinggpt.gui.chat;
 
 import javax.swing.BoxLayout;
@@ -9,8 +11,8 @@ import gwg6784.swinggpt.gui.common.Panel;
 import gwg6784.swinggpt.gui.common.Label;
 
 public class ChatHeaderPanel extends Panel {
-    private Label headerLabel;
-    private Label subtextLabel;
+    private final Label headerLabel;
+    private final Label subtextLabel;
 
     public ChatHeaderPanel(String header, String subtext) {
         super(BORDER_BOTTOM);

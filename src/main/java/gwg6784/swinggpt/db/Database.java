@@ -1,3 +1,5 @@
+// Written by James P. (21154854)
+
 package gwg6784.swinggpt.db;
 
 import java.sql.Connection;
@@ -22,7 +24,7 @@ public class Database {
     private static final String STATUS_TABLE_ALREADY_EXISTS = "X0Y32";
     private static final DateFormat SQL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
-    private Connection conn;
+    private final Connection conn;
 
     private Database(Connection conn) {
         this.conn = conn;

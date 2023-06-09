@@ -1,3 +1,5 @@
+// Written by James P. (21154854)
+
 package gwg6784.swinggpt.services.conversation;
 
 /**
@@ -5,6 +7,7 @@ package gwg6784.swinggpt.services.conversation;
  */
 @FunctionalInterface
 public interface ThrowableRunnable extends Runnable {
+    @Override
     default void run() {
         try {
             runThrowable();
