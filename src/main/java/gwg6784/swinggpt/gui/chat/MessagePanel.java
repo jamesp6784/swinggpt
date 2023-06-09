@@ -27,7 +27,11 @@ public class MessagePanel extends Panel implements Scrollable {
     }
 
     public void addReply(String message, boolean animate) {
-        this.addMessageBlock(new ReplyMessageBlock(message, animate));
+        this.addMessageBlock(new ReplyMessageBlock(message, animate, false));
+    }
+
+    public void addError(String message) {
+        this.addMessageBlock(new ReplyMessageBlock(message, false, true));
     }
 
     private void addMessageBlock(MessageBlock block) {

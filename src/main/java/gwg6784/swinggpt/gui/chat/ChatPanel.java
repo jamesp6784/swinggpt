@@ -65,10 +65,9 @@ public class ChatPanel extends Panel {
         }
 
         replyFut.thenAccept(reply -> {
-            messagePanel.addReply(reply, true);
+            this.messagePanel.addReply(reply, true);
         }).exceptionally(e -> {
-            e.printStackTrace();
-            // TODO: handle
+            this.messagePanel.addError("An error occured: " + e.getMessage());
             return null;
         });
     }

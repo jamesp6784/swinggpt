@@ -11,8 +11,10 @@ public class ReplyMessageBlock extends MessageBlock {
     private int animationIndex = 0;
     private Timer animationTimer;
 
-    public ReplyMessageBlock(String text, boolean animate) {
+    public ReplyMessageBlock(String text, boolean animate, boolean error) {
         super("", Palette.ACCENT);
+
+        setForeground(Palette.DEBUG);
 
         this.text = text;
 
